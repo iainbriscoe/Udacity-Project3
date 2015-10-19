@@ -14,11 +14,12 @@
  * a little simpler to work with.
  */
 
-var Engine = (function(global) {
+var Engine = (function (global) {
     /* Predefine the variables we'll be using within this scope,
      * create the canvas element, grab the 2D context for that canvas
      * set the canvas elements height/width and add it to the DOM.
      */
+    "use strict";
     var doc = global.document,
         win = global.window,
         canvas = doc.createElement('canvas'),
@@ -85,18 +86,38 @@ var Engine = (function(global) {
     }
 
 
-    function checkCollisions(){
-        allEnemies.forEach(function(enemy) {
+    //resets the bus back to the new start position 
+    function changeXYSpeed(enemy) {
+        enemy.x = 0 - Math.floor(Math.random() * (1 - (-100) + 1)) + (-100); 
+
+        var yOptions = [60, 140, 220];
+        var maxVal = 2; 
+        var minVal = 0;
+        var randFloored = Math.floor(Math.random() * (maxVal - minVal + 1)) + minVal;
+        enemy.y = yOptions[randFloored];
+
+        var speedOptions = [1, 2, 5];
+        randFloored = Math.floor(Math.random() * (maxVal - minVal + 1)) + minVal;
+
+        enemy.speed = speedOptions[randFloored];
+    }
+
+    function checkCollisions (){
+        allEnemies.forEach(function (enemy) {
        
-       		//gets a better indication of contact based on the width of a bug
-            if((player.x > enemy.x && player.x < (enemy.x+50)) || (player.x < enemy.x && player.x > (enemy.x - 50))){
-            	 if((enemy.y-5) === player.y){
+            //gets a better indication of contact based on the width of a bug
+            if ((player.x > enemy.x && player.x < (enemy.x + 50)) || (player.x < enemy.x && player.x > (enemy.x - 50))){
+            	 if((enemy.y - 5) === player.y) {
                     player.x = 200; 
                     player.y = 375; 
-                };
-            };
+                }
+            }
+            
+            if (enemy.x >= 500) {
+                changeXYSpeed(enemy);  
+            }
         });
-    };
+    }
 
     /* This is called by the update function  and loops through all of the
      * objects within your allEnemies array as defined in app.js and calls
@@ -110,11 +131,14 @@ var Engine = (function(global) {
 
         allEnemies.forEach(function(enemy) {
             enemy.update(dt);
+            
+            
         });
 
         player.update();
+        
     
-    };
+    }
     /* This function initially draws the "game level", it will then call
      * the renderEntities function. Remember, this function is called every
      * game tick (or loop of the game engine) because that's how games work -
@@ -181,7 +205,12 @@ var Engine = (function(global) {
      * those sorts of things. It's only called once by the init() method.
      */
     function reset() {
-        // noop
+       // console.log(this.x); 
+       // if(this.x >= 500){
+       //     console.log("working"); 
+       //     this.x = 0-Math.floor(Math.random() * (1 - (-100) + 1)) + (-100); 
+            //this.y = this.yOptions[this.randFloor]; 
+       // };
     }
 
     /* Go ahead and load all of the images we know we're going to need to
