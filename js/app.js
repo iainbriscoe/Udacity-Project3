@@ -16,8 +16,7 @@ var Enemy = function() {
     
     //speed of the bug selected from an array of "speedOptions" using a random number of 0,1,0r 2
     this.speed = speedOptions[randFloored];
-    //links to prototype for update and render use
-    enemy = Object.create(Enemy.prototype); 
+
     //reference to the bug image
     this.sprite = 'images/enemy-bug.png';
 };
@@ -40,7 +39,6 @@ Enemy.prototype.render = function() {
 
 //player class identifying a player and their start position
 var Player = function(){
-    player = Object.create(Player.prototype); 
     this.x = 200;
     this.y = 375; 
     this.handleInput = handleInput; 

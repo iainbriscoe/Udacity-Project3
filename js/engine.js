@@ -87,10 +87,10 @@ var Engine = (function(global) {
 
     function checkCollisions(){
         allEnemies.forEach(function(enemy) {
-            
-            if(enemy.y-5 === player.y){
-                 
-                if((enemy.x) === player.x){
+       
+       		//gets a better indication of contact based on the width of a bug
+            if((player.x > enemy.x && player.x < (enemy.x+50)) || (player.x < enemy.x && player.x > (enemy.x - 50))){
+            	 if((enemy.y-5) === player.y){
                     player.x = 200; 
                     player.y = 375; 
                 };
