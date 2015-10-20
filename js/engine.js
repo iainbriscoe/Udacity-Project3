@@ -86,35 +86,22 @@ var Engine = (function (global) {
     }
 
 
-    //resets the bus back to the new start position 
-    function changeXYSpeed(enemy) {
-        enemy.x = 0 - Math.floor(Math.random() * (1 - (-100) + 1)) + (-100); 
+  
 
-        var yOptions = [60, 140, 220];
-        var maxVal = 2; 
-        var minVal = 0;
-        var randFloored = Math.floor(Math.random() * (maxVal - minVal + 1)) + minVal;
-        enemy.y = yOptions[randFloored];
 
-        var speedOptions = [1, 2, 5];
-        randFloored = Math.floor(Math.random() * (maxVal - minVal + 1)) + minVal;
-
-        enemy.speed = speedOptions[randFloored];
-    }
-
-    function checkCollisions (){
+    function checkCollisions() {
         allEnemies.forEach(function (enemy) {
        
             //gets a better indication of contact based on the width of a bug
-            if ((player.x > enemy.x && player.x < (enemy.x + 50)) || (player.x < enemy.x && player.x > (enemy.x - 50))){
-            	 if((enemy.y - 5) === player.y) {
-                    player.x = 200; 
-                    player.y = 375; 
+            if ((player.x > enemy.x && player.x < (enemy.x + 50)) || (player.x < enemy.x && player.x > (enemy.x - 50))) {
+            	 if ((enemy.y - 5) === player.y) {
+                    player.x = 200;
+                    player.y = 375;
                 }
             }
-            
+            //if bug passes bounds, reset
             if (enemy.x >= 500) {
-                changeXYSpeed(enemy);  
+                enemy.changeXYSpeed();
             }
         });
     }
@@ -131,13 +118,9 @@ var Engine = (function (global) {
 
         allEnemies.forEach(function(enemy) {
             enemy.update(dt);
-            
-            
         });
 
         player.update();
-        
-    
     }
     /* This function initially draws the "game level", it will then call
      * the renderEntities function. Remember, this function is called every
